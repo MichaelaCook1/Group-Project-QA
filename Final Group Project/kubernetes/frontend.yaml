@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend
+  name: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - image: octdevteam2/frontend
+        name: frontend
+        ports:
+          - containerPort: 4200
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+   name: frontend
+   labels:
+     app: frontend      
+spec:
+   type: ClusterIP
+   ports:
+     - protocol: TCP
+       port: 4200
+       targetPort: 4200
+   selector:
+     app: frontend

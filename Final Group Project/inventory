@@ -1,0 +1,9 @@
+[manager]
+127.0.0.1
+
+[interpreter]
+127.0.0.1
+
+[all:vars]
+ansible_user=ansible
+ansible_python_interpreter=/usr/bin/python3  

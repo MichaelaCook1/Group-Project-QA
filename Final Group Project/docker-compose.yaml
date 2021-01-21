@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+    - target: 80
+      published: 80
+      protocol: tcp
+    volumes:
+    - type: bind
+      source: ./nginx/nginx.conf
+      target: /etc/nginx/nginx.conf
+    depends_on:
+    - front-end
+  mysql:
+    build: ./mysql
+    image: octdevteam2/pet-db:latest
+    ports:
+    - target: 3306
+      published: 3306
+      protocol: tcp
+  back-end:
+    build: ./back-end
+    image: octdevteam2/backend:latest
+    ports:
+    - target: 9966
+      published: 9966
+      protocol: tcp
+    deploy:
+      replicas: 1
+  front-end:
+    build: ./front-end
+    image: octdevteam2/frontend:latest
+    ports:
+    - target: 4200
+      published: 4200
+      protocol: tcp
+    depends_on:
+    - back-end
+    deploy:
+      replicas: 1

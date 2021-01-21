@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    stages {
+        stage('Requirements') {
+            steps {
+                sh 'chmod +x ./scripts/*'
+                sh './scripts/requirements.sh'
+            }
+        }
+        stage('Build') {
+	    steps {
+                sh './scripts/ansible.sh'
+                sh './scripts/terraform.sh'
+                sh './scripts/build.sh'
+	    }
+	}
+	stage('Deploy') {
+	    steps { 	
+		sh 'bash scripts/kubedeploy.sh'
+	    }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

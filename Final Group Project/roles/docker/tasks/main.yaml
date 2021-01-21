@@ -1,0 +1,63 @@
+- name: 'Installing packages'
+  apt:
+    pkg: 
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+    - python-setuptools
+    - python3
+    - python3-pip
+    update_cache: true
+
+- name: "Add Docker key"
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: "Add Docker APT repo"
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename|lower }} stable
+    state: present 
+
+- name: "Install Docker"
+  apt:
+    name: docker-ce
+    state: latest
+    update_cache: true
+
+- name: "Docker service start"
+  service:
+    name: docker
+    state: started
+                                                                                                                    
+- name: "Install Docker pip package"
+  pip:
+    executable: pip3
+    name: docker
+
+- name: "Add user to Docker"
+  user:
+    name: "{{ ansible_user }}"
+    group: docker
+    state: present
+
+- name: "Install Docker Compose"
+  get_url: 
+    url : https://github.com/docker/compose/releases/download/1.25.1-rc1/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 'u+x,g+x'
+
+- name: "Install Azure CLI"
+  shell: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+  args:
+    warn: false            
+
+- name: "Check Azure installed"    
+  package:
+    name: "azure-cli"
+    state: present
+ 
+- name: "Check version"
+  shell: az --version
+  register: azureVersion 

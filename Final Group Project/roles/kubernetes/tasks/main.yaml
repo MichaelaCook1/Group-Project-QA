@@ -1,0 +1,27 @@
+- name: "Install Kubernetes"
+  shell: curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+- name: "install APT Transport HTTPS"
+  apt:
+   name: apt-transport-https
+   state: present
+
+- name: "Add Kubernetes apt-key for APT repository"
+  apt_key:
+   url: https://packages.cloud.google.com/apt/doc/apt-key.gpg 
+   state: present
+
+- name: "Add Kubernetes APT repository"
+  apt_repository: 
+   repo: deb http://apt.kubernetes.io/ kubernetes-xenial main 
+   state: present
+   filename: 'kubernetes'                                                       
+           
+- name: "Install kubectl"
+  apt:
+   name: "{{ packages }}"
+   state: present
+   update_cache: yes
+  vars:
+   packages:
+           - kubectl
