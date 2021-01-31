@@ -28,23 +28,28 @@ The software and languages chosen for this project are listed below.
 * Terraform
 
 **Ansible**
-Ansible is used to install Docker, Docker-Compose, Azure CLI and Kubernetes onto new virtual machines using Playbook.yaml. With Inventory file, multiple VMs can be set up in a batch if the deployment is in a larger scale. This removes the repetition of setting up VM over and over again.  
+Ansible is a software provisioning tool we used to install Docker, Docker-Compose, Azure CLI and Kubernetes onto new virtual machines using Playbook.yaml. With an Inventory file, multiple VMs can be set up in a batch if the deployment is on a larger scale. This removes the repetition of setting up VM over and over again.  
 
 **Azure DevOps**
-Azure DevOps is used to host the repo of this project and the Kanban board as our project tracking tool. It is a more private way to store our project and gives us a better control on who can have access to our project and the Kanban board. An email is sent to members containing what tasks is assigned to them giving them a more clear sight of what needed to be done on the day.
+Azure DevOps is a Version Control System we used to host the repository of this project and the Kanban board as our project tracking tool. It is a more private way to store our project and gives us a better control on who can have access to our project and the Kanban board. An email is sent to members containing what tasks is assigned to them giving them a more clear sight of what needed to be done on the day. Since publishing our project all data from Azure DevOps has been copied over onto this GitHub repository.
 
 **Docker** 
-Docker images contains everything the application need in order to get it running. Docker images are saved on Docker Hub which can be pulled down when needed, this means that as long as the machine can run Docker then the image of the application can also be ran from it.
+Docker is a software that simplifies the process of building, running, managing and distributing applications, these applications are saved as "images" which contain everything necessary for smooth-running of the application. Docker images are saved on Docker Hub which can be pulled down when needed, this means that as long as the machine can run Docker then the image of the application can also be ran from it.
 
 **Jenkins**
-Jenkins is used to enable the automation of the project built with pipeline. Create a webhook on the project's repo and it will automatically build and deploy the project. This provides a smoother deployment and easy to identify any errors with the Jenkins' log record. Failed build would not get pushed into the live environment which means that only version that is working and built successfully will be accessible to public.
+Jenkins is a CI automation server we used to deploy our application as a pipeline. A webhook was created on the project's repository such that with every committed change the application would be automatically built and run, allowing a rolling update to take place on the live application without downtime. This provides a smoother deployment and easy to identify any errors with the Jenkins' log record. Failed build would not get pushed into the live environment which means that only version that is working and built successfully will be accessible to the public.
 
 **Kubernetes**
+Kubernetes is container orchestration tool that we used to scale and automate our deployment. Within our Kubernetes pod, the frontend, backend and database parts of the application were built as docker images with cluster ip services and an nginx image was built to work as a reverse proxy for the application and was serviced as a load balancer to distribute traffic requests to the application.
 
+**Nginx**
+Nginx is a web server that can be used as a reverse proxy, load balancer and HTTP cache for live applications. Within our application we built Nginx as a Docker image to use as a reverse proxy, and used the Kubernetes service settings to allow the image to also work as a load balancer. Such that the only public IP address that contained the live application was the one assoiciated with the Ngninx cluster, and replicas of this image were created such that if the application received a large volume of traffic, it would be balanced between the replicas. 
 
-
-
-
+**Terraform**
+ Terraform is an open-source infrastructure as code software which allows concise management of service infrastructure. Within our application we used terraform to create a resource group, define security rules and initiate a Kubernetes cluster.
+ 
+ **Project Planning
+ 
 
 **Jenkins Deployment Log**
 ```
